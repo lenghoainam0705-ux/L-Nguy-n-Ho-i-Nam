@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Flashcard Học Từ</title>
+
+<style>
+
+body{
+font-family: Arial;
+text-align:center;
+background:linear-gradient(135deg,#d4f8e8,#e8f6ff);
+}
+
+h1{
+margin-top:20px;
+}
+
+/* input */
+
+input{
+padding:10px;
+margin:5px;
+border-radius:8px;
+border:1px solid #ccc;
+}
+
+button{
+padding:10px 15px;
+border:none;
+border-radius:10px;
+background:#4CAF50;
+color:white;
+cursor:pointer;
+}
+
+button:hover{
+background:#43a047;
+}
+
+/* flashcard */
+
+.card{
+width:320px;
+height:220px;
+margin:40px auto;
+perspective:1000px;
+}
+
+.inner{
+width:100%;
+height:100%;
+position:relative;
+transition:transform 0.8s;
+transform-style:preserve-3d;
+}
+
+.card.flip .inner{
+transform:rotateY(180deg);
+}
+
+.side{
+position:absolute;
+width:100%;
+height:100%;
+border-radius:15px;
+backface-visibility:hidden;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+background:white;
+box-shadow:0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* trang trí hoa */
+
+.decor{
+position:absolute;
+font-size:25px;
+opacity:0.4;
+}
+
+.fl1{top:10px;left:15px}
+.fl2{bottom:10px;right:15px}
+
+.back{
+background:#4CAF50;
+color:white;
+transform:rotateY(180deg);
+}
+
+img{
+max-width:90px;
+margin-top:10px;
+border-radius:8px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>🌸 Flashcard Học Từ 🌿</h1>
+
+<input id="word" placeholder="Nhập từ">
+<input id="meaning" placeholder="Nhập nghĩa">
+<input id="image" placeholder="Link ảnh minh hoạ (không bắt buộc)">
+
+<br>
+<button onclick="addCard()">Thêm Flashcard</button>
+
+<div class="card" id="card" onclick="flipCard()">
+
+<div class="inner">
+
+<div class="side front">
+
+<div class="decor fl1">🌸</div>
+<div class="decor fl2">🍃</div>
+
+<div id="frontText">Nhấn để học</div>
+<img id="frontImg">
+
+</div>
+
+<div class="side back">
+
+<div class="decor fl1">🌼</div>
+<div class="decor fl2">🌿</div>
+
+<div id="backText">Nghĩa</div>
+<img id="backImg">
+
+</div>
+
+</div>
+</div>
+
+<button onclick="nextCard()">Thẻ tiếp theo</button>
+
+<script>
+
+let cards=[]
+let index=0
+
+function addCard(){
+
+let word=document.getElementById("word").value
+let meaning=document.getElementById("meaning").value
+let image=document.getElementById("image").value
+
+if(word=="" || meaning==""){
+alert("Nhập từ và nghĩa")
+return
+}
+
+cards.push({word,meaning,image})
+
+document.getElementById("word").value=""
+document.getElementById("meaning").value=""
+document.getElementById("image").value=""
+
+showCard()
+
+}
+
+function showCard(){
+
+if(cards.length==0)return
+
+let card=cards[index]
+
+document.getElementById("frontText").innerText=card.word
+document.getElementById("backText").innerText=card.meaning
+
+document.getElementById("frontImg").src=card.image
+document.getElementById("backImg").src=card.image
+
+document.getElementById("card").classList.remove("flip")
+
+}
+
+function flipCard(){
+
+document.getElementById("card").classList.toggle("flip")
+
+}
+
+function nextCard(){
+
+if(cards.length==0)return
+
+index=(index+1)%cards.length
+
+showCard()
+
+}
+
+</script>
+
+</body>
+</html>
